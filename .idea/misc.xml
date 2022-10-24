@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Documents/Mobile Computing2/Ocso_Activity/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Documents/Mobile Computing2/Ocso_Activity/app/src/main/res/layout/activity_view_courses.xml" value="0.33" />
+        <entry key="..\:/Documents/Mobile Computing2/Ocso_Activity/app/src/main/res/layout/course_rv_item.xml" value="0.5" />
       </map>
     </option>
   </component>

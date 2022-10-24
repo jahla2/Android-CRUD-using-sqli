@@ -2,10 +2,15 @@ package com.example.ocso_activity;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+
 public class DBHandler extends SQLiteOpenHelper {
+
+
     //name of Database
     private static final String DB_NAME = "coursedb";
     //database version
@@ -42,7 +47,7 @@ public class DBHandler extends SQLiteOpenHelper {
     }
     //Method for CREATE
     public void addNewCourse(String courseName, String courseDuration,String courseDescription, String courseTracks) {
-
+        //Writing to database
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
@@ -56,6 +61,34 @@ public class DBHandler extends SQLiteOpenHelper {
 
         //close databse after execution
         db.close();
+    }
+
+    //method for reading all records
+    public ArrayList<CourseModal>  readCourses() {
+        //Reading to database
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        //Creating Cursor Query to read data
+        Cursor cursorCourses = db.rawQuery("SELECT * FROM " + TABLE_NAME,null);
+
+        //Creating new Array List
+        ArrayList<CourseModal> courseModalArrayList = new ArrayList<>();
+
+        //moving cursor to first position
+        if (cursorCourses.moveToFirst()){
+            do
+            {
+                //Adding data from cursor to array list
+                courseModalArrayList.add(new CourseModal(cursorCourses.getString(1),
+                        cursorCourses.getString(4),
+                        cursorCourses.getString(2),
+                        cursorCourses.getString(3)));
+            } while (cursorCourses.moveToNext());
+            //moving cursor to next
+        }
+        //at last closing cursor retruning our array list
+        cursorCourses.close();
+        return  courseModalArrayList;
     }
 
     //method for checking if table exist already

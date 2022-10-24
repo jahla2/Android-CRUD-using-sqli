@@ -2,6 +2,7 @@ package com.example.ocso_activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
 
     //variable for editext, button and dbhandler
     private EditText courseNameEdt, courseTracksEdt, courseDurationEdt, courseDescriptionEdit;
-    private Button addCourseBtn;
+    private Button addCourseBtn, readCourseBtn;
     private DBHandler dbHandler;
 
     @Override
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         courseDurationEdt = findViewById(R.id.idEdtCourseDuration);
         courseDescriptionEdit = findViewById(R.id.idEdtCourseDescription);
         addCourseBtn = findViewById(R.id.idBtnAddCourse);
+        readCourseBtn = findViewById(R.id.idBtnReadCourse);
 
 
         //variable for passing data from DBHandler
@@ -42,13 +44,13 @@ public class MainActivity extends AppCompatActivity {
                 String courseDescription = courseDescriptionEdit.getText().toString();
 
                 //Validation if fields are empty or not
-                if (courseName.isEmpty() && courseTracks.isEmpty() && courseDuration.isEmpty() && courseDescription.isEmpty())
+                if (courseName.isEmpty() || courseTracks.isEmpty() || courseDuration.isEmpty() || courseDescription.isEmpty())
                 {
                     Toast.makeText(MainActivity.this, "Please enter all the data..",Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                //calling a method to add and data pass all values to sqlite
+                //calling a method to add data and pass all values to sqlite
                 dbHandler.addNewCourse(courseName, courseDuration, courseDescription, courseTracks);
 
                 //After adding data we display a Toast message.
@@ -61,5 +63,16 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+
+        //View all Courses btn listener
+        readCourseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //opening new activity using intent
+                Intent i = new Intent(MainActivity.this, ViewCourses.class);
+                startActivity(i);
+            }
+        });
+
     }
 }
