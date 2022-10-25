@@ -47,10 +47,11 @@ public class UpdateCourseActivity extends AppCompatActivity {
         courseDurationEdt.setText(courseDuration);
 
         //Onclick Listener for update button
-        updateCourseBtn.setOnClickListener(new View.OnClickListener(){
+        updateCourseBtn.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v) {
-                //calling method for update course
+                //calling method from DBHandler for update course
                 //passing all our edit text values
                 dbHandler.updateCourse(courseName,courseNameEdt.getText().toString(),
                         courseDescriptionEdt.getText().toString(),
@@ -66,8 +67,20 @@ public class UpdateCourseActivity extends AppCompatActivity {
             }
         });
 
-        //
+        //Onclick Listener for delete button
+        deleteCourseBtn.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                //Calling method from DBHandler to delete our course
+                dbHandler.deleteCourse(courseName);
+                Toast.makeText(UpdateCourseActivity.this, "Record Successfully Deleted",Toast.LENGTH_SHORT).show();
 
+                //Returning to main activity View
+                Intent i = new Intent(UpdateCourseActivity.this,MainActivity.class);
+                startActivity(i);
+            }
+        });
 
     }
 }
