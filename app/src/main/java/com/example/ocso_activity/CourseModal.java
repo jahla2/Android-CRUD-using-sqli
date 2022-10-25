@@ -1,5 +1,6 @@
 package com.example.ocso_activity;
 
+//Pass Values to CourseRVAdapter
 public class CourseModal {
     //1. vairable for our coursename,
     //description, tracks and duration, id

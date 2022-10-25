@@ -23,17 +23,17 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String NAME_COL = "name";
     //course duration
     private static final String DURATION_COL = "duration";
-    //course discription colum
+    //course description column
     private static final String DESCRIPTION_COL = "description";
     //Tracks column
     private static final  String TRACKS_COL = "tracks";
 
-    //Constructor for Databse handler
+    //Constructor for Database handler
     public DBHandler(Context context){
         super(context, DB_NAME, null, DB_VERSION);
     }
 
-    //method is for creating a database by running a sqlite query
+    //method is for creating a database by running a sqlite query when first install
     @Override
     public  void onCreate(SQLiteDatabase db){
         String query = "CREATE TABLE " + TABLE_NAME + " ("
@@ -45,7 +45,8 @@ public class DBHandler extends SQLiteOpenHelper {
 
         db.execSQL(query);
     }
-    //Method for CREATE
+
+    //Method for Adding new Record
     public void addNewCourse(String courseName, String courseDuration,String courseDescription, String courseTracks) {
         //Writing to database
         SQLiteDatabase db = this.getWritableDatabase();
@@ -89,6 +90,36 @@ public class DBHandler extends SQLiteOpenHelper {
         //at last closing cursor retruning our array list
         cursorCourses.close();
         return  courseModalArrayList;
+    }
+
+    //method for updating Records
+    public void updateCourse(String originalCourseName, String courseName, String courseDescription, String courseTracks, String courseDuration)
+    {
+        //calling method for Update writable database
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        //passing all values gamit ang key value pair
+        values.put(NAME_COL,courseName);
+        values.put(DURATION_COL,courseDuration);
+        values.put(DESCRIPTION_COL,courseDescription);
+        values.put(TRACKS_COL,courseTracks);
+
+        //Calling update method to update database
+        //Comparing it with name of courses in original variable
+        db.update(TABLE_NAME, values, "name=?", new String[]{originalCourseName});
+        db.close();
+    }
+
+    //Method for Deleting Records
+    public void deleteCourse(String courseName)
+    {
+        //declare variable to write database
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        //Calling method for delete records comparing it in courseName
+        db.delete(TABLE_NAME, "name=?", new String[]{courseName});
+        db.close();
     }
 
     //method for checking if table exist already

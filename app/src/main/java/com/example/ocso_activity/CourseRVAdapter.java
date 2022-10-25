@@ -1,6 +1,7 @@
 package com.example.ocso_activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+//This Class is for Dynamic RECYCLER VIEW
 public class CourseRVAdapter extends RecyclerView.Adapter<CourseRVAdapter.ViewHolder> {
 
     // variable for array list and context
@@ -18,7 +20,6 @@ public class CourseRVAdapter extends RecyclerView.Adapter<CourseRVAdapter.ViewHo
     private Context context;
 
     //constructor
-
     public CourseRVAdapter(ArrayList<CourseModal> courseModalArrayList, Context context) {
         this.courseModalArrayList = courseModalArrayList;
         this.context = context;
@@ -41,6 +42,25 @@ public class CourseRVAdapter extends RecyclerView.Adapter<CourseRVAdapter.ViewHo
         holder.courseDescTV.setText(modal.getCourseDescription());
         holder.courseDurationTV.setText(modal.getCourseDuration());
         holder.courseTracksTV.setText(modal.getCourseTracks());
+
+        //Add onClick listener for Recycler view item
+        holder.itemView.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public  void onClick(View v) {
+                //Using intent
+                Intent i = new Intent(context, UpdateCourseActivity.class);
+
+                //passing all values
+                i.putExtra("name",modal.getCourseName());
+                i.putExtra("description", modal.getCourseDescription());
+                i.putExtra("duration", modal.getCourseDuration());
+                i.putExtra("tracks", modal.getCourseTracks());
+
+                //starting activity
+                context.startActivity(i);
+            }
+        });
     }
 
     @Override
@@ -60,6 +80,7 @@ public class CourseRVAdapter extends RecyclerView.Adapter<CourseRVAdapter.ViewHo
             courseDescTV = itemView.findViewById(R.id.idTVCourseDescription);
             courseDurationTV = itemView.findViewById(R.id.idTVCourseDuration);
             courseTracksTV = itemView.findViewById(R.id.idTVCourseTracks);
+
         }
     }
 
